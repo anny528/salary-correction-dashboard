@@ -67,9 +67,10 @@ table.tbl tbody tr:last-child td{border-bottom:none}
 .td-total{font-weight:800;color:var(--ink)}
 .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:6px}
 .tag-考勤原因{background:rgba(59,130,246,.12);color:#2563eb}
-.tag-其他{background:rgba(168,85,247,.12);color:#7c3aed}
-.tag-操作问题{background:rgba(245,158,11,.14);color:#b45309}
+.tag-提前用工{background:rgba(168,85,247,.12);color:#7c3aed}
 .tag-系统问题{background:rgba(239,68,68,.12);color:#dc2626}
+.tag-核算问题{background:rgba(245,158,11,.14);color:#b45309}
+.tag-排班问题{background:rgba(16,185,129,.14);color:#059669}
 .td-cnt{color:var(--ink2)}
 .trend-up{color:#dc2626;font-weight:700}
 .trend-down{color:#059669;font-weight:700}
@@ -121,85 +122,268 @@ var DATA={
   currency:"$",
   months:["6月","7月","8月"],
   monthly:[
-    {"month":"6月","total":44470.51,"count":66,"types":[
-      {"type":"考勤原因","amount":19727.67,"count":42},
-      {"type":"其他","amount":23786.83,"count":10},
-      {"type":"操作问题","amount":956.01,"count":14},
-      {"type":"系统问题","amount":0,"count":0}
-    ]},
-    {"month":"7月","total":61553.80,"count":77,"types":[
-      {"type":"考勤原因","amount":10255.49,"count":45},
-      {"type":"其他","amount":49116.54,"count":27},
-      {"type":"操作问题","amount":627.00,"count":1},
-      {"type":"系统问题","amount":1554.77,"count":4}
-    ]},
-    {"month":"8月","total":33622.31,"count":29,"types":[
-      {"type":"考勤原因","amount":24152.15,"count":21},
-      {"type":"其他","amount":9255.57,"count":7},
-      {"type":"操作问题","amount":214.59,"count":1},
-      {"type":"系统问题","amount":0,"count":0}
-    ]}
-  ],
+  {
+    "month": "6月",
+    "total": 19740.61,
+    "count": 36,
+    "types": [
+      {
+        "type": "考勤原因",
+        "amount": 19740.61,
+        "count": 36
+      }
+    ]
+  },
+  {
+    "month": "7月",
+    "total": 16724.12,
+    "count": 48,
+    "types": [
+      {
+        "type": "考勤原因",
+        "amount": 8568.19,
+        "count": 33
+      },
+      {
+        "type": "提前用工",
+        "amount": 4059.87,
+        "count": 4
+      },
+      {
+        "type": "系统问题",
+        "amount": 2604.3,
+        "count": 8
+      },
+      {
+        "type": "核算问题",
+        "amount": 1491.76,
+        "count": 3
+      }
+    ]
+  },
+  {
+    "month": "8月",
+    "total": 23934.3,
+    "count": 21,
+    "types": [
+      {
+        "type": "考勤原因",
+        "amount": 22848.68,
+        "count": 18
+      },
+      {
+        "type": "提前用工",
+        "amount": 399.0,
+        "count": 1
+      },
+      {
+        "type": "核算问题",
+        "amount": 425.62,
+        "count": 1
+      },
+      {
+        "type": "排班问题",
+        "amount": 261.0,
+        "count": 1
+      }
+    ]
+  }
+],
   types:[
-    {"type":"考勤原因","amount":54135.31,"count":108},
-    {"type":"其他","amount":82158.94,"count":44},
-    {"type":"操作问题","amount":1797.60,"count":16},
-    {"type":"系统问题","amount":1554.77,"count":4}
-  ],
+  {
+    "type": "考勤原因",
+    "amount": 51157.48,
+    "count": 87
+  },
+  {
+    "type": "提前用工",
+    "amount": 4458.87,
+    "count": 5
+  },
+  {
+    "type": "系统问题",
+    "amount": 2604.3,
+    "count": 8
+  },
+  {
+    "type": "核算问题",
+    "amount": 1917.38,
+    "count": 4
+  },
+  {
+    "type": "排班问题",
+    "amount": 261.0,
+    "count": 1
+  }
+],
   regions:[
-    {"name":"GL 大湖大区","amount":53074.02,"count":15,"types":[
-      {"type":"其他","amount":35398.23,"count":6},
-      {"type":"考勤原因","amount":17675.79,"count":9}
-    ]},
-    {"name":"MS 中南大区","amount":29932.98,"count":44,"types":[
-      {"type":"其他","amount":15407.19,"count":11},
-      {"type":"考勤原因","amount":13898.79,"count":32},
-      {"type":"操作问题","amount":627.00,"count":1}
-    ]},
-    {"name":"NE 东北大区","amount":18391.41,"count":39,"types":[
-      {"type":"其他","amount":15602.20,"count":13},
-      {"type":"考勤原因","amount":1833.20,"count":12},
-      {"type":"操作问题","amount":956.01,"count":14}
-    ]},
-    {"name":"WE 美西大区","amount":17960.96,"count":38,"types":[
-      {"type":"考勤原因","amount":10530.36,"count":29},
-      {"type":"其他","amount":5661.24,"count":4},
-      {"type":"系统问题","amount":1554.77,"count":4},
-      {"type":"操作问题","amount":214.59,"count":1}
-    ]},
-    {"name":"Ground项目部","amount":11268.64,"count":12,"types":[
-      {"type":"其他","amount":7224.89,"count":6},
-      {"type":"考勤原因","amount":4043.75,"count":6}
-    ]},
-    {"name":"TX 德州大区","amount":4142.62,"count":4,"types":[
-      {"type":"其他","amount":2085.27,"count":2},
-      {"type":"考勤原因","amount":2057.35,"count":2}
-    ]},
-    {"name":"FL 佛州大区","amount":1733.12,"count":10,"types":[
-      {"type":"考勤原因","amount":1733.12,"count":10}
-    ]},
-    {"name":"BD 本地客户部","amount":1349.69,"count":2,"types":[
-      {"type":"考勤原因","amount":1349.69,"count":2}
-    ]},
-    {"name":"DO 数字运营部","amount":605.60,"count":2,"types":[
-      {"type":"其他","amount":387.22,"count":1},
-      {"type":"考勤原因","amount":218.38,"count":1}
-    ]},
-    {"name":"QC 质量控制部","amount":544.07,"count":1,"types":[
-      {"type":"考勤原因","amount":544.07,"count":1}
-    ]},
-    {"name":"GUS 人力资源部","amount":416.70,"count":2,"types":[
-      {"type":"其他","amount":392.70,"count":1},
-      {"type":"考勤原因","amount":24.00,"count":1}
-    ]},
-    {"name":"AD 行政部","amount":226.81,"count":3,"types":[
-      {"type":"考勤原因","amount":226.81,"count":3}
-    ]}
-  ]
+  {
+    "name": "GL 大湖大区",
+    "amount": 16862.09,
+    "count": 4,
+    "types": [
+      {
+        "type": "考勤原因",
+        "amount": 16862.09,
+        "count": 4
+      }
+    ]
+  },
+  {
+    "name": "MS 中南大区",
+    "amount": 13838.33,
+    "count": 26,
+    "types": [
+      {
+        "type": "考勤原因",
+        "amount": 10314.46,
+        "count": 21
+      },
+      {
+        "type": "提前用工",
+        "amount": 3262.87,
+        "count": 4
+      },
+      {
+        "type": "排班问题",
+        "amount": 261.0,
+        "count": 1
+      }
+    ]
+  },
+  {
+    "name": "WE 美西大区",
+    "amount": 13231.8,
+    "count": 35,
+    "types": [
+      {
+        "type": "考勤原因",
+        "amount": 9354.12,
+        "count": 25
+      },
+      {
+        "type": "系统问题",
+        "amount": 2385.92,
+        "count": 7
+      },
+      {
+        "type": "核算问题",
+        "amount": 1491.76,
+        "count": 3
+      }
+    ]
+  },
+  {
+    "name": "NE 东北大区",
+    "amount": 6275.49,
+    "count": 16,
+    "types": [
+      {
+        "type": "考勤原因",
+        "amount": 6275.49,
+        "count": 16
+      }
+    ]
+  },
+  {
+    "name": "Ground项目部",
+    "amount": 5239.75,
+    "count": 7,
+    "types": [
+      {
+        "type": "考勤原因",
+        "amount": 4043.75,
+        "count": 6
+      },
+      {
+        "type": "提前用工",
+        "amount": 1196.0,
+        "count": 1
+      }
+    ]
+  },
+  {
+    "name": "TX 德州大区",
+    "amount": 2057.35,
+    "count": 2,
+    "types": [
+      {
+        "type": "考勤原因",
+        "amount": 2057.35,
+        "count": 2
+      }
+    ]
+  },
+  {
+    "name": "FL 佛州大区",
+    "amount": 1733.12,
+    "count": 10,
+    "types": [
+      {
+        "type": "考勤原因",
+        "amount": 1307.5,
+        "count": 9
+      },
+      {
+        "type": "核算问题",
+        "amount": 425.62,
+        "count": 1
+      }
+    ]
+  },
+  {
+    "name": "QC 质量控制部",
+    "amount": 544.07,
+    "count": 1,
+    "types": [
+      {
+        "type": "考勤原因",
+        "amount": 544.07,
+        "count": 1
+      }
+    ]
+  },
+  {
+    "name": "DO 数字运营部",
+    "amount": 218.38,
+    "count": 1,
+    "types": [
+      {
+        "type": "系统问题",
+        "amount": 218.38,
+        "count": 1
+      }
+    ]
+  },
+  {
+    "name": "AD 行政部",
+    "amount": 202.81,
+    "count": 2,
+    "types": [
+      {
+        "type": "考勤原因",
+        "amount": 202.81,
+        "count": 2
+      }
+    ]
+  },
+  {
+    "name": "BD 本地客户部",
+    "amount": 195.84,
+    "count": 1,
+    "types": [
+      {
+        "type": "考勤原因",
+        "amount": 195.84,
+        "count": 1
+      }
+    ]
+  }
+]
 };
 
-var TC={"考勤原因":"#3b82f6","其他":"#a855f7","操作问题":"#f59e0b","系统问题":"#ef4444"};
-var typeOrder=["考勤原因","其他","操作问题","系统问题"];
+var TC={"考勤原因": "#3b82f6", "提前用工": "#a855f7", "系统问题": "#ef4444", "核算问题": "#f59e0b", "排班问题": "#10b981"};
+var typeOrder=["考勤原因", "提前用工", "系统问题", "核算问题", "排班问题"];
 
 function money(v){
   var s=Math.round(v*100)/100;
