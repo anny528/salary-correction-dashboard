@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="aSdqu53dSJdUDLC3R3LBCf">
+<head data-page-node-id="9GjARtM0Q2DIFJzqTDu6PX">
+<meta charset="UTF-8" data-page-node-id="PlYQX8QrahiiDgR8w1hp3W">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="hz3PhD2MGEJjPyoqe8mNE1">
+<title>薪酬勘误看板</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f6f8;--card:#ffffff;--line:#e5e7eb;--ink:#111827;--ink2:#6b7280;--ink3:#9ca3af;
+  --blue:#3b82f6;--purple:#a855f7;--orange:#f59e0b;--red:#ef4444;
+  --up:#dc2626;--down:#059669;--new:#9ca3af;
+}
+html,body{background:var(--bg);color:var(--ink);font-family:"Inter","PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 24px 64px}
+/* header */
+.hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px}
+.hd h1{font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.hd-meta{margin-top:8px;font-size:13px;color:var(--ink3);font-weight:500}
+.hd .dl-btn{flex:0 0 auto;border:1px solid var(--line);background:#fff;color:var(--ink2);padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
+.hd .dl-btn:hover{border-color:#cbd5e1;color:var(--ink)}
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 1px 2px rgba(16,24,40,.03)}
+.bento{display:grid;gap:18px;margin-bottom:18px}
+.bento-4{grid-template-columns:repeat(4,1fr)}
+.bento-2{grid-template-columns:1fr 1fr}
+/* KPI */
+.kpi{position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
+.kpi.k1::before{background:linear-gradient(90deg,#00d4ff,transparent)}
+.kpi.k2::before{background:linear-gradient(90deg,#a855f7,transparent)}
+.kpi.k3::before{background:linear-gradient(90deg,#ec4899,transparent)}
+.kpi.k4::before{background:linear-gradient(90deg,#10b981,transparent)}
+.kpi-l{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);margin-bottom:8px}
+.kpi-v{font-size:40px;font-weight:900;letter-spacing:-.03em;line-height:1;margin-bottom:8px;color:var(--ink)}
+.kpi-u{font-size:18px;font-weight:500;opacity:.4;margin-left:3px}
+.kpi-s{font-size:13px;color:var(--ink2);line-height:1.5;margin-top:4px}
+.kpi-g{position:absolute;top:-30px;right:-20px;width:120px;height:120px;border-radius:50%;filter:blur(45px);opacity:.08}
+.kpi.k1 .kpi-g{background:#00d4ff}.kpi.k2 .kpi-g{background:#a855f7}.kpi.k3 .kpi-g{background:#ec4899}.kpi.k4 .kpi-g{background:#10b981}
+/* chart card header */
+.cc-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
+.cc-t{font-size:16px;font-weight:700}
+.cc-s{font-size:12px;color:var(--ink3);margin-top:3px}
+.pill{font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;letter-spacing:.02em}
+.pc{background:rgba(6,182,212,.12);color:#0891b2}
+.pp{background:rgba(168,85,247,.12);color:#7c3aed}
+/* donut */
+.donut-flex{display:flex;align-items:center;gap:26px}
+.donut-box{flex:0 0 auto;position:relative}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.donut-center .v{font-size:22px;font-weight:900;letter-spacing:-.02em}
+.donut-center .l{font-size:11px;color:var(--ink3);margin-top:2px}
+.legend{flex:1;display:flex;flex-direction:column;gap:12px}
+.lg-item{display:flex;align-items:center;gap:10px}
+.lg-dot{width:10px;height:10px;border-radius:3px;flex:0 0 auto}
+.lg-t{font-size:14px;font-weight:700}
+.lg-m{font-size:12px;color:var(--ink2);margin-top:1px}
+.lg-p{margin-left:auto;font-size:14px;font-weight:800}
+/* table */
+.tbl-wrap{overflow-x:auto}
+table.tbl{width:100%;border-collapse:collapse;font-size:13px}
+table.tbl thead th{text-align:left;padding:10px 12px;font-size:11px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line);white-space:nowrap}
+table.tbl tbody td{padding:12px;border-bottom:1px solid #f1f3f5;color:var(--ink);white-space:nowrap}
+table.tbl tbody tr:last-child td{border-bottom:none}
+.td-dept{font-weight:600}
+.td-hrs{font-weight:800}
+.td-total{font-weight:800;color:var(--ink)}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:6px}
+.tag-考勤原因{background:rgba(59,130,246,.12);color:#2563eb}
+.tag-其他{background:rgba(168,85,247,.12);color:#7c3aed}
+.tag-操作问题{background:rgba(245,158,11,.14);color:#b45309}
+.tag-系统问题{background:rgba(239,68,68,.12);color:#dc2626}
+.td-cnt{color:var(--ink2)}
+.trend-up{color:#dc2626;font-weight:700}
+.trend-down{color:#059669;font-weight:700}
+.ft{text-align:center;font-size:12px;color:var(--ink3);margin-top:12px}
+@media(max-width:1080px){.bento-4{grid-template-columns:repeat(2,1fr)}.bento-2{grid-template-columns:1fr}.hd h1{font-size:26px}}
+@media(max-width:640px){.bento-4{grid-template-columns:1fr}.kpi-v{font-size:34px}.hd h1{font-size:24px}.donut-flex{flex-direction:column}}
+</style>
+</head>
+<body data-page-node-id="LC8M2ePn2ecIawmgfqgtKw">
+<div class="wrap" data-page-node-id="fax3CZFfxkFetJ1Z70bpZC">
+
+  <div class="hd" data-page-node-id="uRXg3We9jZ5gZYB8Ix0cWQ">
+    <div data-page-node-id="tgPIYN5NPTRm3mOgQAcBUe">
+      <h1 data-page-node-id="aJriwi95I2FV3RLZgwtIcZ">薪酬勘误看板</h1>
+      <div class="hd-meta" data-page-node-id="zP871ZPHYwkPDVt0CUYtps"><span data-page-node-id="BLcq20Zdys0D9LstUnfpqL">● 2026.06-2026.08 · 近3个月</span></div>
+    </div>
+    <button class="dl-btn" onclick="downloadImg()" data-page-node-id="QZp79ncxuuFkciboPu52tt">下载长图</button>
+  </div>
+
+  <div class="bento bento-4" id="kpiRow" data-page-node-id="mm1IGkgkpSmqD1UGnKS6jD"></div>
+
+  <div class="card cc" style="margin-bottom:18px" data-page-node-id="qOFagrpCU0FbkG1RQ3iyKF">
+    <div class="cc-hd" data-page-node-id="oDqPgwFTCddjR8rVW36dut"><div data-page-node-id="GbryHBiistqcFFLBMCpNCj"><div class="cc-t" data-page-node-id="7y1RpB0Wr55Z5j2jzf8Ey3">📈 近3个月勘误趋势</div><div class="cc-s" data-page-node-id="2kx8VOZeWK6t8RMaJWbLZr">月度勘误金额 · 柱顶标注总额与笔数 · 环比 vs 上月</div></div><span class="pill pc" data-page-node-id="9XrDHrc7yh7A0mXEJpoeRW">月度趋势</span></div>
+    <div id="chartTrend" data-page-node-id="v7jtsAGn1q9WmTCcueVHaF"></div>
+  </div>
+
+  <div class="bento bento-2" data-page-node-id="shcCPpZf10CroOLMcD0ZsY">
+    <div class="card cc" data-page-node-id="a4xv4A5EqZ2pjoab4gQP6O">
+      <div class="cc-hd" data-page-node-id="XKmKRwHAVIgzhYRwjdRXfG"><div data-page-node-id="85GNusXwqO73mZAXwx8vDp"><div class="cc-t" data-page-node-id="hYEEtnhOBqRnUmkdiWZqE1">🍩 异常类型分布</div><div class="cc-s" data-page-node-id="Sfb96PCjJZl56RzOY2DKpN">按勘误原因分类 · 金额占比</div></div><span class="pill pp" data-page-node-id="1GG6CeMjBT7ZKrpOZonTPJ">异常类型</span></div>
+      <div id="chartType" data-page-node-id="ax4ekxuhG76oQbpw7YN2PK"></div>
+    </div>
+    <div class="card cc" data-page-node-id="qosoiKnGouB46GJbgGg56i">
+      <div class="cc-hd" data-page-node-id="hqZIpZtli6p9CrX4t8Agk8"><div data-page-node-id="rdTLrBJnoECAtTMyTOcRCW"><div class="cc-t" data-page-node-id="n4R2v1a749g2JVFBgp8mov">🏷️ 各区域勘误金额</div><div class="cc-s" data-page-node-id="fVAo6Vx4MhgQai3lEBOfsf">按勘误金额降序</div></div><span class="pill pp" data-page-node-id="kmTog6nBOfXlMvcGt14X7X">区域</span></div>
+      <div id="chartRegion" data-page-node-id="GGz7M93ebg6G1yUDcuRuNe"></div>
+    </div>
+  </div>
+
+  <div class="card cc" style="margin-bottom:0" data-page-node-id="FBatTmxerRTGyvSGJgvgI5">
+    <div class="cc-hd" data-page-node-id="AleM6xbxQaK4LFcS8ktEdZ"><div data-page-node-id="IL9dB9J9o4f1nO9mx4gBXh"><div class="cc-t" data-page-node-id="PZglMab4qKPJiOFdjhPCpp">📋 勘误明细</div><div class="cc-s" data-page-node-id="I3jm2Myfyia1HmiMICCV4F">按区域 × 异常类型汇总</div></div><span class="pill pp" data-page-node-id="gj8u6eJqxx7xtLJGQklcMi">汇总</span></div>
+    <div class="tbl-wrap" data-page-node-id="sIZDDS4hMEfLdSUQ3DBTVJ"><table class="tbl" id="detailTbl" data-page-node-id="ficgVg1FslEnhAKGSVDdCE"></table></div>
+  </div>
+
+  <div class="ft" data-page-node-id="H9J6ImAoW54HBSCSjTtiWr">薪酬勘误看板</div>
+</div>
+
+<script>
+var DATA={
+  range:"2026.06-2026.08",
+  currency:"$",
+  months:["6月","7月","8月"],
+  monthly:[
+    {"month":"6月","total":44470.51,"count":66,"types":[
+      {"type":"考勤原因","amount":19727.67,"count":42},
+      {"type":"其他","amount":23786.83,"count":10},
+      {"type":"操作问题","amount":956.01,"count":14},
+      {"type":"系统问题","amount":0,"count":0}
+    ]},
+    {"month":"7月","total":61553.80,"count":77,"types":[
+      {"type":"考勤原因","amount":10255.49,"count":45},
+      {"type":"其他","amount":49116.54,"count":27},
+      {"type":"操作问题","amount":627.00,"count":1},
+      {"type":"系统问题","amount":1554.77,"count":4}
+    ]},
+    {"month":"8月","total":33622.31,"count":29,"types":[
+      {"type":"考勤原因","amount":24152.15,"count":21},
+      {"type":"其他","amount":9255.57,"count":7},
+      {"type":"操作问题","amount":214.59,"count":1},
+      {"type":"系统问题","amount":0,"count":0}
+    ]}
+  ],
+  types:[
+    {"type":"考勤原因","amount":54135.31,"count":108},
+    {"type":"其他","amount":82158.94,"count":44},
+    {"type":"操作问题","amount":1797.60,"count":16},
+    {"type":"系统问题","amount":1554.77,"count":4}
+  ],
+  regions:[
+    {"name":"GL 大湖大区","amount":53074.02,"count":15,"types":[
+      {"type":"其他","amount":35398.23,"count":6},
+      {"type":"考勤原因","amount":17675.79,"count":9}
+    ]},
+    {"name":"MS 中南大区","amount":29932.98,"count":44,"types":[
+      {"type":"其他","amount":15407.19,"count":11},
+      {"type":"考勤原因","amount":13898.79,"count":32},
+      {"type":"操作问题","amount":627.00,"count":1}
+    ]},
+    {"name":"NE 东北大区","amount":18391.41,"count":39,"types":[
+      {"type":"其他","amount":15602.20,"count":13},
+      {"type":"考勤原因","amount":1833.20,"count":12},
+      {"type":"操作问题","amount":956.01,"count":14}
+    ]},
+    {"name":"WE 美西大区","amount":17960.96,"count":38,"types":[
+      {"type":"考勤原因","amount":10530.36,"count":29},
+      {"type":"其他","amount":5661.24,"count":4},
+      {"type":"系统问题","amount":1554.77,"count":4},
+      {"type":"操作问题","amount":214.59,"count":1}
+    ]},
+    {"name":"Ground项目部","amount":11268.64,"count":12,"types":[
+      {"type":"其他","amount":7224.89,"count":6},
+      {"type":"考勤原因","amount":4043.75,"count":6}
+    ]},
+    {"name":"TX 德州大区","amount":4142.62,"count":4,"types":[
+      {"type":"其他","amount":2085.27,"count":2},
+      {"type":"考勤原因","amount":2057.35,"count":2}
+    ]},
+    {"name":"FL 佛州大区","amount":1733.12,"count":10,"types":[
+      {"type":"考勤原因","amount":1733.12,"count":10}
+    ]},
+    {"name":"BD 本地客户部","amount":1349.69,"count":2,"types":[
+      {"type":"考勤原因","amount":1349.69,"count":2}
+    ]},
+    {"name":"DO 数字运营部","amount":605.60,"count":2,"types":[
+      {"type":"其他","amount":387.22,"count":1},
+      {"type":"考勤原因","amount":218.38,"count":1}
+    ]},
+    {"name":"QC 质量控制部","amount":544.07,"count":1,"types":[
+      {"type":"考勤原因","amount":544.07,"count":1}
+    ]},
+    {"name":"GUS 人力资源部","amount":416.70,"count":2,"types":[
+      {"type":"其他","amount":392.70,"count":1},
+      {"type":"考勤原因","amount":24.00,"count":1}
+    ]},
+    {"name":"AD 行政部","amount":226.81,"count":3,"types":[
+      {"type":"考勤原因","amount":226.81,"count":3}
+    ]}
+  ]
+};
+
+var TC={"考勤原因":"#3b82f6","其他":"#a855f7","操作问题":"#f59e0b","系统问题":"#ef4444"};
+var typeOrder=["考勤原因","其他","操作问题","系统问题"];
+
+function money(v){
+  var s=Math.round(v*100)/100;
+  var neg=s<0; s=Math.abs(s);
+  var parts=s.toFixed(2).split('.');
+  parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');
+  return (neg?'-':'')+DATA.currency+parts.join('.');
+}
+function moneyShort(v){
+  if(Math.abs(v)>=1000)return DATA.currency+(v/1000).toFixed(0)+'k';
+  return DATA.currency+Math.round(v);
+}
+function fmtN(v){return Math.round(v*100)/100;}
+function tclass(t){return 'tag-'+t;}
+
+var totalAmt=DATA.types.reduce(function(s,t){return s+t.amount},0);
+var totalCnt=DATA.types.reduce(function(s,t){return s+t.count},0);
+
+// KPI
+document.getElementById('kpiRow').innerHTML=
+'<div class="card kpi k1"><div class="kpi-g"></div><div class="kpi-l">累计勘误金额</div><div class="kpi-v" style="font-size:34px">'+money(totalAmt)+'</div><div class="kpi-s">近3个月合计 · 6/7/8月</div></div>'+
+'<div class="card kpi k2"><div class="kpi-g"></div><div class="kpi-l">勘误总笔数</div><div class="kpi-v">'+totalCnt+'<span class="kpi-u">笔</span></div><div class="kpi-s">含所有异常类型</div></div>'+
+'<div class="card kpi k3"><div class="kpi-g"></div><div class="kpi-l">涉及区域</div><div class="kpi-v">'+DATA.regions.length+'<span class="kpi-u">个</span></div><div class="kpi-s">'+DATA.regions.slice(0,4).map(function(r){return r.name.replace(/ (中南|东北|美西|佛州|德州)大区|项目部|部/,'')}).join(' · ')+' …</div></div>'+
+'<div class="card kpi k4"><div class="kpi-g"></div><div class="kpi-l">异常类型</div><div class="kpi-v">'+typeOrder.length+'<span class="kpi-u">种</span></div><div class="kpi-s">'+typeOrder.join(' · ')+'</div></div>';
+
+// Chart 1: 近3个月趋势（单柱柱形图 + 环比）
+(function(){
+  var nR=DATA.monthly.length;
+  var W=860,H=440,T=48,B=72,L=84,R=30;
+  var cw=W-L-R,ch=H-T-B,gap=cw/nR,bw=Math.min(gap*0.42,140);
+  var maxV=Math.max.apply(null,DATA.monthly.map(function(m){return m.total}));
+  maxV=Math.ceil(maxV/10000)*10000+10000;
+  var h='<svg width="100%" viewBox="0 0 '+W+' '+H+'" style="display:block">';
+  for(var i=0;i<=4;i++){var gy=T+ch*(1-i/4);h+='<line x1="'+L+'" y1="'+gy+'" x2="'+(W-R)+'" y2="'+gy+'" stroke="#e5e7eb"/>';h+='<text x="'+(L-8)+'" y="'+(gy+4)+'" text-anchor="end" font-size="11" fill="#9ca3af">'+moneyShort(maxV*i/4)+'</text>';}
+  DATA.monthly.forEach(function(m,ri){
+    var cx=L+ri*gap+gap/2;
+    var barH=m.total/maxV*ch;
+    var by=T+ch-barH;
+    // 单柱（渐变蓝紫）
+    h+='<defs><linearGradient id="g'+ri+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a855f7"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs>';
+    h+='<rect x="'+(cx-bw/2)+'" y="'+by+'" width="'+bw+'" height="'+barH+'" rx="8" fill="url(#g'+ri+')"><title>'+m.month+': '+money(m.total)+' ('+m.count+'笔)</title></rect>';
+    // 柱顶总额 + 笔数
+    h+='<text x="'+cx+'" y="'+(by-8)+'" text-anchor="middle" font-size="15" fill="#111827" font-weight="800">'+money(m.total)+'</text>';
+    h+='<text x="'+cx+'" y="'+(by-24)+'" text-anchor="middle" font-size="11" fill="#6b7280">'+m.count+' 笔</text>';
+    // 环比（vs 上月）
+    if(ri>0){
+      var prev=DATA.monthly[ri-1].total;
+      var r=(m.total-prev)/prev*100;
+      var up=r>0, sign=up?'↑':'↓';
+      h+='<text x="'+cx+'" y="'+(by-40)+'" text-anchor="middle" font-size="12" fill="'+(up?'#dc2626':'#059669')+'" font-weight="700">环比 '+sign+Math.abs(r).toFixed(1)+'%</text>';
+    }
+    h+='<text x="'+cx+'" y="'+(H-28)+'" text-anchor="middle" font-size="14" fill="#6b7280" font-weight="700">'+m.month+'</text>';
+  });
+  h+='</svg>';
+  document.getElementById('chartTrend').innerHTML=h;
+})();
+
+// Chart 2: 异常类型分布（环形）
+(function(){
+  var R=70,C=2*Math.PI*R,SW=26;
+  var segs=DATA.types.map(function(t){
+    return {type:t.type,count:t.count,amount:t.amount,pct:t.amount/totalAmt*100};
+  });
+  var acc=0;segs.forEach(function(s){s.start=acc;acc+=s.amount/totalAmt});
+  var h='<div class="donut-flex"><div class="donut-box" style="width:180px;height:180px">';
+  h+='<svg width="180" height="180" viewBox="0 0 180 180">';
+  h+='<circle cx="90" cy="90" r="'+R+'" fill="none" stroke="#eef0f3" stroke-width="'+SW+'"/>';
+  segs.forEach(function(s){
+    var len=s.amount/totalAmt*C;
+    h+='<circle cx="90" cy="90" r="'+R+'" fill="none" stroke="'+TC[s.type]+'" stroke-width="'+SW+'" stroke-dasharray="'+len.toFixed(2)+' '+(C-len).toFixed(2)+'" stroke-dashoffset="'+(-s.start*C).toFixed(2)+'" transform="rotate(-90 90 90)"/>';
+  });
+  h+='</svg>';
+  h+='<div class="donut-center"><div class="v">'+money(totalAmt)+'</div><div class="l">'+totalCnt+' 笔</div></div>';
+  h+='</div><div class="legend">';
+  segs.forEach(function(s){
+    h+='<div class="lg-item"><span class="lg-dot" style="background:'+TC[s.type]+'"></span><div><div class="lg-t">'+s.type+'</div><div class="lg-m">'+s.count+' 笔 · '+money(s.amount)+'</div></div><div class="lg-p" style="color:'+TC[s.type]+'">'+s.pct.toFixed(1)+'%</div></div>';
+  });
+  h+='</div></div>';
+  document.getElementById('chartType').innerHTML=h;
+})();
+
+// Chart 3: 各区域勘误金额（四种类型横向堆叠）
+(function(){
+  var regs=DATA.regions.slice().sort(function(a,b){return b.amount-a.amount});
+  var nR=regs.length;
+  var W=560,H=nR*42+46,L=128,R=76;
+  var cw=W-L-R;
+  var maxV=Math.max.apply(null,regs.map(function(r){return r.amount}));
+  maxV=Math.ceil(maxV/10000)*10000;
+  var h='<svg width="100%" viewBox="0 0 '+W+' '+H+'" style="display:block">';
+  // legend
+  var lx=L;
+  typeOrder.forEach(function(t){h+='<rect x="'+lx+'" y="10" width="12" height="12" rx="3" fill="'+TC[t]+'"/>';h+='<text x="'+(lx+16)+'" y="20" font-size="11" fill="#6b7280">'+t+'</text>';lx+=16+t.length*14+12});
+  regs.forEach(function(r,i){
+    var y=40+i*42;
+    h+='<text x="'+(L-8)+'" y="'+(y+20)+'" text-anchor="end" font-size="12" fill="#111827" font-weight="600">'+r.name+'</text>';
+    // 按类型顺序横向堆叠
+    var sx=L;
+    typeOrder.forEach(function(t){
+      var tv=0;
+      r.types.forEach(function(rt){if(rt.type===t)tv=rt.amount});
+      if(tv<=0)return;
+      var sw=tv/maxV*cw;
+      var isFirst=(sx===L), isLast;
+      h+='<rect x="'+sx+'" y="'+(y+6)+'" width="'+sw+'" height="22" fill="'+TC[t]+'"><title>'+r.name+' / '+t+': '+money(tv)+'</title></rect>';
+      sx+=sw;
+    });
+    h+='<text x="'+(sx+8)+'" y="'+(y+22)+'" font-size="12" fill="#111827" font-weight="700">'+money(r.amount)+'</text>';
+  });
+  h+='</svg>';
+  document.getElementById('chartRegion').innerHTML=h;
+})();
+
+// Detail table (区域 × 异常类型)
+(function(){
+  var h='<thead><tr><th>#</th><th>区域</th><th>异常类型</th><th style="text-align:right">笔数</th><th style="text-align:right">金额</th></tr></thead><tbody>';
+  var idx=0,sumCnt=0,sumAmt=0;
+  DATA.regions.forEach(function(r){
+    r.types.forEach(function(t){
+      idx++;sumCnt+=t.count;sumAmt+=t.amount;
+      h+='<tr><td style="color:#9ca3af">'+idx+'</td>'+
+         '<td class="td-dept">'+r.name+'</td>'+
+         '<td><span class="tag '+tclass(t.type)+'">'+t.type+'</span></td>'+
+         '<td class="td-cnt" style="text-align:right">'+t.count+'</td>'+
+         '<td class="td-hrs" style="text-align:right">'+money(t.amount)+'</td></tr>';
+    });
+  });
+  h+='<tr><td class="td-total" style="border-top:2px solid #e5e7eb"></td>'+
+     '<td class="td-total" style="border-top:2px solid #e5e7eb">合计</td>'+
+     '<td class="td-total" style="border-top:2px solid #e5e7eb">'+typeOrder.length+' 种类型</td>'+
+     '<td class="td-total" style="border-top:2px solid #e5e7eb;text-align:right">'+sumCnt+'</td>'+
+     '<td class="td-total" style="border-top:2px solid #e5e7eb;text-align:right">'+money(sumAmt)+'</td></tr>';
+  h+='</tbody>';
+  document.getElementById('detailTbl').innerHTML=h;
+})();
+
+function downloadImg(){
+  if(typeof html2canvas==='undefined'){alert('长图组件未加载（需联网），请直接用浏览器截图');return;}
+  html2canvas(document.body,{scale:2,backgroundColor:'#f5f6f8'}).then(function(canvas){
+    var a=document.createElement('a');
+    a.download='薪酬勘误看板.png';
+    a.href=canvas.toDataURL('image/png');
+    a.click();
+  });
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</body>
+</html>
